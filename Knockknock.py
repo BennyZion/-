@@ -2,6 +2,8 @@ import random
 import time
 import copy
 import sys
+from colorama import init,Fore,Back,Style
+init(autoreset=True)
 class Role:
     def __init__(self,name, hp, ad):
         self.name = name
@@ -14,7 +16,7 @@ class Role:
         print("%s 攻击了 %s 造成了 %d 伤害，%s 还剩 %d 点血"%(self.name, obj.name, rand_ad, obj.name, obj.hp))
     def setWea(self, obj):
         t = copy.deepcopy(obj)
-        print("在战斗中，您觉醒了技能 %s！"%t.name)
+        print("\033[33m在战斗中，您觉醒了技能 %s！"%t.name)
         self.wea.append(t)
         self.wea[-1].ad = t.ad + self.ad
         self.wea[-1].ownnwer = self.name
@@ -28,7 +30,7 @@ class Weapon:
     def attack(self,obj):
         rand_ad = random.randint(self.ad - 15, self.ad)
         rand_cp = random.randint(0,9)
-        if rand_cp <= 3:
+        if rand_cp <= 2:
             obj.hp = obj.hp - 2*rand_ad
             print("%s 使用 %s 攻击 %s \033[31m命中要害\033[0m！造成了\033[31m %d \033[0m点伤害，%s 还剩 %d 点血"%(self.ownnwer, self.name, obj.name, 2*rand_ad, obj.name, obj.hp))
         else:
@@ -64,6 +66,14 @@ def skill(obj1,obj2):
             print("请输入正确的技能号!")
         else:
             break
+def progress_bar():
+    for i in range(1, 101):
+        print("\r", end="")
+        print("LOADING: {}%: ".format(i), "▋" * (i // 2), end="")
+        sys.stdout.flush()
+        time.sleep(0.05)
+    print()
+    input("加载成功！输入回车开始游戏！")
 if __name__ == '__main__':
     zhao = Role("大魔王BIN", 250, 20)
     wea0 = Weapon("眨眼睛", 8, 0)
@@ -73,15 +83,7 @@ if __name__ == '__main__':
     flag1 = True
     flag2 = True
     flag3 = True
-    # print("---游戏加载中 ： LOADING---")
-    # print("Loading", end="")
-    # for i in range(10):
-    #     print(".", end='', flush=True)
-    #     time.sleep(0.5)
-    # print(">", end='', flush=True)
-    # print("SUCCESS！")
-    input("--->"
-          "输入回车开始游戏！")
+    progress_bar()
     input("很久很久以前，魔王BIN突然出现，带来灾难带走了公主！（回车键继续）")
     input("王国危在旦夕，这时，您站了出来！")
     name = input("少年，您叫？（请输入您的角色名）").strip()
@@ -117,8 +119,3 @@ if __name__ == '__main__':
             li.setWea(wea3)
             flag3 = False
     input("按回车键退出！")
-
-
-
-
-
