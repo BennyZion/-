@@ -31,7 +31,6 @@ def attack(obj1, obj2):
     if len(obj1.wea) > 0:
         ran_int = random.randint(0,len(obj1.wea) - 1)
         obj1.wea[ran_int].attack(obj2)
-        print(wea3.ad)
     else:
         obj1.attack(obj2)
 def skill(obj):
